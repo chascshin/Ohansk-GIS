@@ -1,0 +1,1336 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            background: #fbffcf;
+        }
+            
+        #map {
+            width: 100%;
+            height: calc(100% - 120px);
+            padding: 0;
+            margin: 0;
+        }
+            
+            
+            .footer {
+                height: 30px;
+                
+            }     
+            
+            
+        </style>
+        <title>ГИС почв Оханского района</title>
+    </head>
+    <body>
+        
+        <div style="margin-left: 150px;line-height: 1; padding-bottom: 15px;">  <big>Геоинформационная система почвенного покрова Оханского городского округа
+            <a href="data.xlsx"><img src="button.png"height=50px; style="padding-top: 10px; padding-bottom: 0px; padding-left: 14px;"><a href="project soil QGIS.7z"><img src="button_qgis.png"height=50px; style="padding-top: 10px; padding-bottom: 0px; padding-left: 68px;"></a>
+            </div> 
+        <div id="map">
+        </div>
+        <div class = "footer">
+            <div style="margin-left: 415px;line-height: 1; padding-bottom: 15px;">
+            <p>Геоинформационная система разработана в ФГБОУ ВО Пермский ГАТУ на кафедре почвоведения</p>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/ka_2.js"></script>
+        <script src="data/rp_3.js"></script>
+        <script src="data/no_4.js"></script>
+        <script src="data/Ox_5.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:18, minZoom:10
+        }).fitBounds([[57.462687948878546,54.62757028221789],[57.79902910296784,55.71140630722916]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://pgsha.ru/faculties/agrohim/cathedras/soil/nir/" target="_blank">на сайт ФГБОУ ВО Пермский ГАТУ</a> &middot;');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_koc_0');
+        map.getPane('pane_koc_0').style.zIndex = 400;
+        var layer_koc_0 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            pane: 'pane_koc_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 10,
+            maxZoom: 18,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_koc_0;
+        map.createPane('pane_kapOpenStreetMap_1');
+        map.getPane('pane_kapOpenStreetMap_1').style.zIndex = 401;
+        var layer_kapOpenStreetMap_1 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_kapOpenStreetMap_1',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 10,
+            maxZoom: 18,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_kapOpenStreetMap_1;
+        map.addLayer(layer_kapOpenStreetMap_1);
+        function pop_ka_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['new_field'] !== null ? autolinker.link(feature.properties['new_field'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['area'] !== null ? autolinker.link(feature.properties['area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ka_2_0(feature) {
+            switch(String(feature.properties['new_field'])) {
+                case '1':
+                    return {
+                pane: 'pane_ka_2',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(138,0,30,0.8)',
+                interactive: false,
+            }
+                    break;
+                case '2':
+                    return {
+                pane: 'pane_ka_2',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(189,0,38,0.8)',
+                interactive: false,
+            }
+                    break;
+                case '3':
+                    return {
+                pane: 'pane_ka_2',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(240,59,32,0.8)',
+                interactive: false,
+            }
+                    break;
+                case '4':
+                    return {
+                pane: 'pane_ka_2',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(253,141,60,0.6)',
+                interactive: false,
+            }
+                    break;
+                case '5':
+                    return {
+                pane: 'pane_ka_2',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(254,178,76,0.8)',
+                interactive: false,
+            }
+                    break;
+                case '6':
+                    return {
+                pane: 'pane_ka_2',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(254,217,118,0.8)',
+                interactive: false,
+            }
+                    break;
+                case '7':
+                    return {
+                pane: 'pane_ka_2',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,1,0.8)',
+                interactive: false,
+            }
+                    break;
+                case '8':
+                    return {
+                pane: 'pane_ka_2',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,177,0.8)',
+                interactive: false,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_ka_2');
+        map.getPane('pane_ka_2').style.zIndex = 402;
+        map.getPane('pane_ka_2').style['mix-blend-mode'] = 'normal';
+        var layer_ka_2 = new L.geoJson(json_ka_2, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_ka_2',
+            layerName: 'layer_ka_2',
+            pane: 'pane_ka_2',
+            onEachFeature: pop_ka_2,
+            style: style_ka_2_0,
+        });
+        bounds_group.addLayer(layer_ka_2);
+        function pop_rp_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['new_field'] !== null ? autolinker.link(feature.properties['new_field'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['area'] !== null ? autolinker.link(feature.properties['area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_rp_3_0(feature) {
+            switch(String(feature.properties['new_field'])) {
+                case '5':
+                    return {
+                pane: 'pane_rp_3',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,255,189,1.0)',
+                interactive: false,
+            }
+                    break;
+                case '15':
+                    return {
+                pane: 'pane_rp_3',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,255,1,1.0)',
+                interactive: false,
+            }
+                    break;
+                case '25':
+                    return {
+                pane: 'pane_rp_3',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,198,117,1.0)',
+                interactive: false,
+            }
+                    break;
+                case '35':
+                    return {
+                pane: 'pane_rp_3',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,153,1,1.0)',
+                interactive: false,
+            }
+                    break;
+                case '45':
+                    return {
+                pane: 'pane_rp_3',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,1,14,1.0)',
+                interactive: false,
+            }
+                    break;
+                case '50':
+                    return {
+                pane: 'pane_rp_3',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(148,52,0,1.0)',
+                interactive: false,
+            }
+                    break;
+                case '0':
+                    return {
+                pane: 'pane_rp_3',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(125,173,207,1.0)',
+                interactive: false,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_rp_3');
+        map.getPane('pane_rp_3').style.zIndex = 403;
+        map.getPane('pane_rp_3').style['mix-blend-mode'] = 'normal';
+        var layer_rp_3 = new L.geoJson(json_rp_3, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_rp_3',
+            layerName: 'layer_rp_3',
+            pane: 'pane_rp_3',
+            onEachFeature: pop_rp_3,
+            style: style_rp_3_0,
+        });
+        bounds_group.addLayer(layer_rp_3);
+        function pop_no_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Номер контура в <br> базе данных</th>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Индекс почвы</th>\
+                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Полное название<br>почвы</th>\
+                        <td colspan="2">' + (feature.properties['full name'] !== null ? autolinker.link(feature.properties['full name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Гумус, %</th>\
+                        <td colspan="2">' + (feature.properties['humus'] !== null ? autolinker.link(feature.properties['humus'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">pH</th>\
+                        <td colspan="2">' + (feature.properties['pH'] !== null ? autolinker.link(feature.properties['pH'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ЕКО, м-экв/100г</th>\
+                        <td colspan="2">' + (feature.properties['eko'] !== null ? autolinker.link(feature.properties['eko'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Балл бонитета <br>по А.С. Фатьянову</th>\
+                        <td colspan="2">' + (feature.properties['ball_bon'] !== null ? autolinker.link(feature.properties['ball_bon'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Класс бонитета</th>\
+                        <td colspan="2">' + (feature.properties['klass_bonn'] !== null ? autolinker.link(feature.properties['klass_bonn'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Качество почвы</th>\
+                        <td colspan="2">' + (feature.properties['quality'] !== null ? autolinker.link(feature.properties['quality'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Картографический источник</th>\
+                        <td colspan="2">' + (feature.properties['note'] !== null ? autolinker.link(feature.properties['note'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Площадь контура, га</th>\
+                        <td colspan="2">' + (feature.properties['area'] !== null ? autolinker.link(feature.properties['area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_no_4_0(feature) {
+            switch(String(feature.properties['color'])) {
+                case '11':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,170,115,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '11':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,170,115,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '11':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,170,115,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '11':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,170,115,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '11':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,170,115,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '11':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,170,115,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '12':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,144,90,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '12':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,144,90,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '12':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,144,90,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '12':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,144,90,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '12':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,144,90,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '12':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,144,90,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '12':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,144,90,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '12':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,144,90,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '12':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,144,90,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '12':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,144,90,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '12':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,144,90,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '12':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,144,90,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '12':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,144,90,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '12':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,144,90,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '13':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(220,129,80,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '13':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(220,129,80,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '35':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(214,213,129,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '37':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(216,212,132,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '37':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(216,212,132,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '37':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(216,212,132,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '37':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(216,212,132,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '37':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(216,212,132,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '37':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(216,212,132,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '38':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(188,177,101,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '38':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(188,177,101,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '38':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(188,177,101,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '39':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(177,156,90,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '41':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(209,213,130,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '41':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(209,213,130,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '41':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(209,213,130,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '42':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(206,210,127,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '51':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(203,167,174,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '51':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(203,167,174,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '51':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(203,167,174,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '54':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(201,131,145,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '54':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(201,131,145,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '186':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(166,195,163,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '197':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(207,216,193,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '216':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(128,167,113,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '216':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(128,167,113,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '214':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(131,171,116,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '214':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(131,171,116,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '224':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(146,110,86,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '224':
+                    return {
+                pane: 'pane_no_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(146,110,86,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_no_4');
+        map.getPane('pane_no_4').style.zIndex = 404;
+        map.getPane('pane_no_4').style['mix-blend-mode'] = 'normal';
+        var layer_no_4 = new L.geoJson(json_no_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_no_4',
+            layerName: 'layer_no_4',
+            pane: 'pane_no_4',
+            onEachFeature: pop_no_4,
+            style: style_no_4_0,
+        });
+        bounds_group.addLayer(layer_no_4);
+        map.addLayer(layer_no_4);
+        function pop_Ox_5(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAME'] !== null ? autolinker.link(feature.properties['NAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAME_EN'] !== null ? autolinker.link(feature.properties['NAME_EN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAME_RU'] !== null ? autolinker.link(feature.properties['NAME_RU'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_LVL'] !== null ? autolinker.link(feature.properties['ADMIN_LVL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OSM_TYPE'] !== null ? autolinker.link(feature.properties['OSM_TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OSM_ID'] !== null ? autolinker.link(feature.properties['OSM_ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L1D'] !== null ? autolinker.link(feature.properties['ADMIN_L1D'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L1'] !== null ? autolinker.link(feature.properties['ADMIN_L1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L2D'] !== null ? autolinker.link(feature.properties['ADMIN_L2D'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L2'] !== null ? autolinker.link(feature.properties['ADMIN_L2'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L3D'] !== null ? autolinker.link(feature.properties['ADMIN_L3D'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L3'] !== null ? autolinker.link(feature.properties['ADMIN_L3'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L4D'] !== null ? autolinker.link(feature.properties['ADMIN_L4D'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L4'] !== null ? autolinker.link(feature.properties['ADMIN_L4'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L5D'] !== null ? autolinker.link(feature.properties['ADMIN_L5D'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L5'] !== null ? autolinker.link(feature.properties['ADMIN_L5'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L6D'] !== null ? autolinker.link(feature.properties['ADMIN_L6D'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L6'] !== null ? autolinker.link(feature.properties['ADMIN_L6'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L7D'] !== null ? autolinker.link(feature.properties['ADMIN_L7D'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L7'] !== null ? autolinker.link(feature.properties['ADMIN_L7'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L8D'] !== null ? autolinker.link(feature.properties['ADMIN_L8D'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L8'] !== null ? autolinker.link(feature.properties['ADMIN_L8'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L9D'] !== null ? autolinker.link(feature.properties['ADMIN_L9D'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L9'] !== null ? autolinker.link(feature.properties['ADMIN_L9'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L10D'] !== null ? autolinker.link(feature.properties['ADMIN_L10D'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN_L10'] !== null ? autolinker.link(feature.properties['ADMIN_L10'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['oktmo'] !== null ? autolinker.link(feature.properties['oktmo'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Ox_5_0() {
+            return {
+                pane: 'pane_Ox_5',
+                opacity: 1,
+                color: 'rgba(63,146,255,1.0)',
+                dashArray: '1,5',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_Ox_5');
+        map.getPane('pane_Ox_5').style.zIndex = 405;
+        map.getPane('pane_Ox_5').style['mix-blend-mode'] = 'normal';
+        var layer_Ox_5 = new L.geoJson(json_Ox_5, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_Ox_5',
+            layerName: 'layer_Ox_5',
+            pane: 'pane_Ox_5',
+            onEachFeature: pop_Ox_5,
+            style: style_Ox_5_0,
+        });
+        bounds_group.addLayer(layer_Ox_5);
+        map.addLayer(layer_Ox_5);
+            var title = new L.Control();
+            title.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+            title.update = function () {
+                this._div.innerHTML = '<h2>Hабор слоёв</h2>';
+            };
+            title.addTo(map);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/Ox_5.png" /> Oxанский городской округ': layer_Ox_5,'noчвы<br /><table><tr><td style="text-align: center;"><img src="legend/no_4_Пд1ПАД1125га0.png" /></td><td>Пд1ПАД (112,5 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд1УАД905га1.png" /></td><td>Пд1УАД (90,5 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд1СП1998га2.png" /></td><td>Пд1СП (199,8 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд1ТП29627га3.png" /></td><td>Пд1ТП (2962,7 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд1ТП288га4.png" /></td><td>Пд1ТП↓ (28,8 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд1ГП4274га5.png" /></td><td>Пд1ГП (427,4 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд2ПАД4117га6.png" /></td><td>Пд2ПАД (411,7 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд2ПАД316га7.png" /></td><td>Пд2ПАД↓ (31,6 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд2УАД76126га8.png" /></td><td>Пд2УАД (7612,6 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд2УАД772га9.png" /></td><td>Пд2УАД↓ (77,2 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд2УАД387га10.png" /></td><td>Пд2УАД↓↓ (38,7 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд2ЛП48754га11.png" /></td><td>Пд2ЛП (4875,4 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд2ЛП892га12.png" /></td><td>Пд2ЛП↓ (89,2 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд2СП34530га13.png" /></td><td>Пд2СП (3453,0 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд2СП12269га14.png" /></td><td>Пд2СП↓ (1226,9 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд2ТП364403га15.png" /></td><td>Пд2ТП (36440,3 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд2ТП40646га16.png" /></td><td>Пд2ТП↓ (4064,6 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд2ТП566га17.png" /></td><td>Пд2ТП↓↓ (56,6 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд2ГП16011га18.png" /></td><td>Пд2ГП (1601,1 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд2ГП837га19.png" /></td><td>Пд2ГП↓ (83,7 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд3ПВ184480га20.png" /></td><td>Пд3ПВ (18448,0 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Пд3ТП196307га21.png" /></td><td>Пд3ТП (19630,7 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Д2ТД38678га22.png" /></td><td>Д2ТД (3867,8 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_ДопТД2208га23.png" /></td><td>ДопТД (220,8 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Д2опУД733га24.png" /></td><td>Д2опУД (73,3 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Д2опСД1016га25.png" /></td><td>Д2опСД (101,6 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Д2опТД10223га26.png" /></td><td>Д2опТД (1022,3 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Д3опТД1118га27.png" /></td><td>Д3опТД (111,8 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Д3опГД405га28.png" /></td><td>Д3опГД (40,5 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_ДБТЭ1468га29.png" /></td><td>ДБТЭ1 (46,8 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_ДБГЭ112574га30.png" /></td><td>ДБГЭ1 (1257,4 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_ДкГЭ58780га31.png" /></td><td>ДкГЭ5 (878,0 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_ДКвГЭ59891га32.png" /></td><td>ДКвГЭ5 (989,1 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Дг3ТД908га33.png" /></td><td>Дг3ТД (90,8 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Дг3СД899га34.png" /></td><td>Дг3СД (89,9 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Дг3ГД1537га35.png" /></td><td>Дг3ГД (153,7 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_ДГ3ГД2146га36.png" /></td><td>ДГ3ГД (214,6 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Л1ЛЛ173га37.png" /></td><td>Л1ЛЛ (17,3 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Л1ТЛ2720га38.png" /></td><td>Л1ТЛ (272,0 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Л1ГЛ2596га39.png" /></td><td>Л1ГЛ (259,6 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Л2ТЛ623га40.png" /></td><td>Л2ТЛ (62,3 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Л2ГЛ575га41.png" /></td><td>Л2ГЛ (57,5 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Бнпг946га42.png" /></td><td>Бнпг (94,6 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Бнпт2987га43.png" /></td><td>Бнпт (298,7 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Ад1гТА5018га44.png" /></td><td>Ад1гТА (501,8 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Ад1ГГА5001га45.png" /></td><td>Ад1ГГА (500,1 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Ад1ГА18282га46.png" /></td><td>Ад1ГА (1828,2 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Ад2ГА2606га47.png" /></td><td>Ад2ГА (260,6 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_Днм7552га48.png" /></td><td>Днм (755,2 га)</td></tr><tr><td style="text-align: center;"><img src="legend/no_4_ОБ245002га49.png" /></td><td>ОБ (24500,2 га)</td></tr></table>': layer_no_4,'rpанулометрический состав почв<br /><table><tr><td style="text-align: center;"><img src="legend/rp_3_Песчаные190039га0.png" /></td><td>Песчаные (19003,9 га)</td></tr><tr><td style="text-align: center;"><img src="legend/rp_3_Супесчаные78925га1.png" /></td><td>Супесчаные (7892,5 га)</td></tr><tr><td style="text-align: center;"><img src="legend/rp_3_Легкосуглинистые972га2.png" /></td><td>Легкосуглинистые (97,2 га)</td></tr><tr><td style="text-align: center;"><img src="legend/rp_3_Среднесуглинистые99561га3.png" /></td><td>Среднесуглинистые (9956,1 га)</td></tr><tr><td style="text-align: center;"><img src="legend/rp_3_Тяжелосуглинистые946354га4.png" /></td><td>Тяжелосуглинистые (94635,4 га)</td></tr><tr><td style="text-align: center;"><img src="legend/rp_3_Глинистые85514га5.png" /></td><td>Глинистые (8551,4 га)</td></tr><tr><td style="text-align: center;"><img src="legend/rp_3_Органогенныепочвы3933га6.png" /></td><td>Органогенные почвы (393,3 га)</td></tr></table>': layer_rp_3,'kaчество почв, класс бонитета<br /><table><tr><td style="text-align: center;"><img src="legend/ka_2_I9011386га0.png" /></td><td>I, >90 (1138,6 га)</td></tr><tr><td style="text-align: center;"><img src="legend/ka_2_II898013624га1.png" /></td><td>II, 89-80 (1362,4 га)</td></tr><tr><td style="text-align: center;"><img src="legend/ka_2_III797093289га2.png" /></td><td>III, 79-70 (9328,9 га)</td></tr><tr><td style="text-align: center;"><img src="legend/ka_2_IV6960232303га3.png" /></td><td>IV, 69-60 (23230,3 га)</td></tr><tr><td style="text-align: center;"><img src="legend/ka_2_V5950424991га4.png" /></td><td>V, 59-50 (42499,1 га)</td></tr><tr><td style="text-align: center;"><img src="legend/ka_2_VI4940105002га5.png" /></td><td>VI, 49-40 (10500,2 га)</td></tr><tr><td style="text-align: center;"><img src="legend/ka_2_VII393082261га6.png" /></td><td>VII, 39-30 (8226,1 га)</td></tr><tr><td style="text-align: center;"><img src="legend/ka_2_VIII30442441га7.png" /></td><td>VIII, <30 (44244,1 га)</td></tr></table>': layer_ka_2,"kapта OpenStreetMap": layer_kapOpenStreetMap_1,"kocмический снимок": layer_koc_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        resetLabels([layer_no_4]);
+        map.on("zoomend", function(){
+            resetLabels([layer_no_4]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_no_4]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_no_4]);
+        });
+        </script>
+    </body>
+</html>
